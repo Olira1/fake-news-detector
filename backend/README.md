@@ -2,9 +2,26 @@
 
 Node.js + Express backend service for Fake News Detector.
 
-## Planned Responsibilities
+## Available Endpoints
 
-- News CRUD APIs for admin
-- Prediction proxy endpoint to ML service
-- Prediction history persistence
-- Optional admin authentication
+- `GET /health`
+- `GET /health/full`
+- `POST /predict` with body: `{ "text": "..." }`
+
+## Run Locally
+
+```bash
+npm install
+npm run dev
+```
+
+Backend loads env automatically:
+
+- `NODE_ENV=development` -> `../.envDevelopment`
+- `NODE_ENV=production` -> `../.envProduction`
+
+## Deploy (Render)
+
+- Root directory: `backend`
+- Build command: `npm install`
+- Start command: `npm start`
