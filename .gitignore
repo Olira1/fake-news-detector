@@ -2,6 +2,8 @@
 .envDevelopment
 .envProduction
 .env
+.envDevelopment.local-ml
+.envDevelopment.remote-ml
 
 # Node
 node_modules

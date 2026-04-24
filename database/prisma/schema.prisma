@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum NewsLabel {
+  fake
+  true
+}
+
+model News {
+  id        Int       @id @default(autoincrement())
+  title     String    @db.VarChar(255)
+  content   String    @db.Text
+  label     NewsLabel
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([createdAt], map: "idx_news_created_at")
+  @@map("news")
+}
+
+model Prediction {
+  id         Int      @id @default(autoincrement())
+  inputText  String   @map("input_text") @db.Text
+  prediction String   @db.VarChar(32)
+  confidence Decimal  @db.Decimal(5, 4)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt], map: "idx_predictions_created_at")
+  @@map("predictions")
+}

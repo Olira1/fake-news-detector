@@ -23,6 +23,24 @@ flowchart LR
   mlApi --> model[(model.pkl)]
 ```
 
+## Reordered Execution Plan (From Current Baseline)
+
+Since the minimum deployed stack is already working (frontend + backend + ML + DB connectivity), continue in this order:
+
+1. **Phase 4 first**: Setup Database Schema + Migrations (real `news` and `predictions` tables).
+2. **Phase 3 next**: Expand Backend API with full CRUD + prediction persistence.
+3. **Phase 6 after backend expansion**: Harden backend-ML integration (timeouts, retries, stable contracts).
+4. **Phase 7 next**: Build complete frontend pages (User page + Admin dashboard).
+5. **Phase 5 after UI/API are ready**: Replace dummy ML with TF-IDF + Logistic Regression model.
+6. **Phase 8**: Run full local end-to-end testing with local/remote ML toggle scenarios.
+7. **Phase 9**: Finalize production env/config review.
+8. **Phase 10**: Redeploy updated services and run production smoke tests.
+
+### Status Checkpoint
+
+- **Completed already**: Phase 1, Phase 2, and minimum baseline parts of Phase 3/5/7/10.
+- **In progress now**: move from baseline to full feature implementation with DB-first approach.
+
 ## Phase 1: Plan Architecture
 
 - Confirm 3 independent services:
