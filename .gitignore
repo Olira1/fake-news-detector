@@ -1,0 +1,31 @@
+# Environment files
+.envDevelopment
+.envProduction
+.env
+
+# Node
+node_modules
+dist
+coverage
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ML artifacts
+*.pkl
+
+# Prisma
+database/prisma/dev.db
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+
+# plan and cursor rules
+.cursor/
+.plan/plan.md
+
