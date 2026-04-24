@@ -1,0 +1,38 @@
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL ||
+  (import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "https://fake-news-detector-backend-4slm.onrender.com");
+
+async function request(path, options = {}) {
+  const response = await fetch(`${BACKEND_URL}${path}`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+    ...options,
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data?.message || `Request failed with ${response.status}`);
+  }
+
+  return data;
+}
+
+export function getBackendUrl() {
+  return BACKEND_URL;
+}
+
+export function fetchFullHealth() {
+  return request("/health/full");
+}
+
+export function predictNews(text) {
+  return request("/predict", {
+    method: "POST",
+    body: JSON.stringify({ text }),
+  });
+}
