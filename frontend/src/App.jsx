@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { fetchFullHealth, getBackendUrl, predictNews } from "./services/api";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import UserPredictPage from "./pages/UserPredictPage";
+import { fetchFullHealth, getBackendUrl } from "./services/api";
 
 function App() {
+  const [activeTab, setActiveTab] = useState("user");
   const [healthData, setHealthData] = useState(null);
   const [healthError, setHealthError] = useState("");
   const [healthLoading, setHealthLoading] = useState(false);
-
-  const [text, setText] = useState("");
-  const [predictionData, setPredictionData] = useState(null);
-  const [predictionError, setPredictionError] = useState("");
-  const [predictionLoading, setPredictionLoading] = useState(false);
 
   async function handleCheckHealth() {
     setHealthLoading(true);
@@ -26,31 +24,42 @@ function App() {
     }
   }
 
-  async function handlePredict(event) {
-    event.preventDefault();
-    setPredictionLoading(true);
-    setPredictionError("");
-
-    try {
-      const data = await predictNews(text.trim());
-      setPredictionData(data);
-    } catch (error) {
-      setPredictionData(null);
-      setPredictionError(error.message);
-    } finally {
-      setPredictionLoading(false);
-    }
-  }
-
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-10">
-      <div className="mx-auto flex max-w-4xl flex-col gap-6">
+      <div className="mx-auto flex max-w-5xl flex-col gap-6">
         <section className="rounded-xl bg-white p-6 shadow-sm">
           <h1 className="text-2xl font-bold text-slate-900">Fake News Detector</h1>
           <p className="mt-2 text-sm text-slate-700">HELLO_WORLD_FRONTEND_OK</p>
           <p className="mt-1 text-xs text-slate-500">
             Backend URL: <span className="font-mono">{getBackendUrl()}</span>
           </p>
+        </section>
+
+        <section className="rounded-xl bg-white p-3 shadow-sm">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveTab("user")}
+              className={`rounded-md px-4 py-2 text-sm font-medium ${
+                activeTab === "user"
+                  ? "bg-blue-600 text-white"
+                  : "bg-slate-100 text-slate-700"
+              }`}
+            >
+              User Page
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("admin")}
+              className={`rounded-md px-4 py-2 text-sm font-medium ${
+                activeTab === "admin"
+                  ? "bg-blue-600 text-white"
+                  : "bg-slate-100 text-slate-700"
+              }`}
+            >
+              Admin Dashboard
+            </button>
+          </div>
         </section>
 
         <section className="rounded-xl bg-white p-6 shadow-sm">
@@ -77,41 +86,7 @@ function App() {
           ) : null}
         </section>
 
-        <section className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">Predict News</h2>
-          <form onSubmit={handlePredict} className="mt-3 space-y-3">
-            <textarea
-              value={text}
-              onChange={(event) => setText(event.target.value)}
-              placeholder="Paste news content here..."
-              className="min-h-36 w-full rounded-md border border-slate-300 p-3 text-sm text-slate-900 outline-none focus:border-slate-900"
-              required
-            />
-
-            <button
-              type="submit"
-              disabled={predictionLoading}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-            >
-              {predictionLoading ? "Predicting..." : "Predict"}
-            </button>
-          </form>
-
-          {predictionError ? (
-            <p className="mt-3 text-sm text-red-600">{predictionError}</p>
-          ) : null}
-
-          {predictionData ? (
-            <div className="mt-4 rounded-md bg-blue-50 p-4">
-              <p className="text-sm text-slate-800">
-                Prediction: <strong>{predictionData.prediction}</strong>
-              </p>
-              <p className="text-sm text-slate-800">
-                Confidence: <strong>{predictionData.confidence}</strong>
-              </p>
-            </div>
-          ) : null}
-        </section>
+        {activeTab === "user" ? <UserPredictPage /> : <AdminDashboardPage />}
       </div>
     </main>
   );

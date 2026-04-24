@@ -32,3 +32,11 @@ Backend loads env automatically:
 - Root directory: `backend`
 - Build command: `npm install`
 - Start command: `npm start`
+
+## ML Integration Tuning
+
+Optional environment variables:
+
+- `ML_REQUEST_TIMEOUT_MS` (default `30000`)
+- `ML_MAX_RETRIES` (default `1`)
+- `ML_RETRY_DELAY_MS` (default `800`)

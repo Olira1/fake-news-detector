@@ -188,8 +188,10 @@ async function handlePredict(req, res) {
 
     return res.json(prediction);
   } catch (error) {
-    return res.status(502).json({
+    const statusCode = Number.isInteger(error.statusCode) ? error.statusCode : 502;
+    return res.status(statusCode).json({
       message: "Failed to get prediction from ML service",
+      code: error.code || "ML_ERROR",
       details: error.message,
     });
   }

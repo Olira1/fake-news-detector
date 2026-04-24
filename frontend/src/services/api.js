@@ -31,8 +31,29 @@ export function fetchFullHealth() {
 }
 
 export function predictNews(text) {
-  return request("/predict", {
+  return request("/api/predict", {
     method: "POST",
     body: JSON.stringify({ text }),
   });
+}
+
+export function fetchNews() {
+  return request("/api/news");
+}
+
+export function createNewsItem(payload) {
+  return request("/api/news", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deleteNewsItem(id) {
+  return request(`/api/news/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export function fetchPredictions() {
+  return request("/api/predictions");
 }
