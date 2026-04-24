@@ -1,7 +1,7 @@
 # Backend
 NODE_ENV=production
 PORT=5000
-DATABASE_URL=mysql://USERNAME:PASSWORD@HOST:4000/fake_news_detector
+DATABASE_URL=mysql://4A89PumRvQzwpu3.root:cKCocp58Ni9bnCXj@gateway01.eu-central-1.prod.aws.tidbcloud.com:4000/test?sslaccept=strict
 ML_SERVICE_URL=https://your-ml-service.onrender.com
 
 # Optional admin auth

@@ -29,3 +29,5 @@ database/prisma/dev.db
 .cursor/
 .plan/plan.md
 
+# release checklist
+RELEASE_CHECKLIST.md
