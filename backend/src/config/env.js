@@ -16,6 +16,8 @@ export const env = {
   port: Number(process.env.PORT || 5000),
   databaseUrl: process.env.DATABASE_URL || "",
   mlServiceUrl: process.env.ML_SERVICE_URL || "",
+  adminUsername: process.env.ADMIN_USERNAME || "admin",
+  adminPassword: process.env.ADMIN_PASSWORD || "admin123",
 };
 
 if (!env.databaseUrl) {

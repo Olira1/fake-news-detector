@@ -6,7 +6,14 @@ Node.js + Express backend service for Fake News Detector.
 
 - `GET /health`
 - `GET /health/full`
-- `POST /predict` with body: `{ "text": "..." }`
+- `POST /api/auth/login`
+- `GET /api/news`
+- `POST /api/news`
+- `PUT /api/news/:id`
+- `DELETE /api/news/:id`
+- `GET /api/predictions`
+- `POST /api/predict` with body: `{ "text": "..." }`
+- `POST /predict` (backward-compatible alias)
 
 ## Run Locally
 
