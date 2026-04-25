@@ -57,3 +57,9 @@ export function deleteNewsItem(id) {
 export function fetchPredictions() {
   return request("/api/predictions");
 }
+
+export function retrainModelFromNews() {
+  return request("/api/ml/retrain", {
+    method: "POST",
+  });
+}

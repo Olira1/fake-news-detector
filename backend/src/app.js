@@ -6,11 +6,12 @@ import {
   createNews,
   deleteNewsById,
   listNews,
+  listNewsForTraining,
   listPredictions,
   savePrediction,
   updateNewsById,
 } from "./lib/db.js";
-import { checkMlHealth, predictWithMl } from "./lib/mlClient.js";
+import { checkMlHealth, predictWithMl, retrainWithMl } from "./lib/mlClient.js";
 
 const app = express();
 
@@ -164,6 +165,42 @@ app.get("/api/predictions", async (_req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "Failed to fetch prediction history",
+      details: error.message,
+    });
+  }
+});
+
+app.post("/api/ml/retrain", async (_req, res) => {
+  try {
+    const dataset = await listNewsForTraining();
+
+    if (!dataset.length) {
+      return res.status(400).json({ message: "No news records found for training" });
+    }
+
+    const labels = new Set(dataset.map((item) => String(item.label).toLowerCase()));
+    if (!labels.has("fake") || !labels.has("true")) {
+      return res.status(400).json({
+        message: "Training dataset must include both 'fake' and 'true' labels",
+      });
+    }
+
+    const samples = dataset.map((item) => ({
+      text: `${item.title}\n${item.content}`.trim(),
+      label: String(item.label).toLowerCase(),
+    }));
+
+    const result = await retrainWithMl(samples);
+    return res.json({
+      message: "Model retrained from current news dataset",
+      trained_samples: result.trained_samples,
+      source: result.source,
+    });
+  } catch (error) {
+    const statusCode = Number.isInteger(error.statusCode) ? error.statusCode : 502;
+    return res.status(statusCode).json({
+      message: "Failed to retrain ML model",
+      code: error.code || "ML_RETRAIN_ERROR",
       details: error.message,
     });
   }

@@ -2,6 +2,14 @@ import { useState } from "react";
 import PredictionResult from "../components/PredictionResult";
 import { fetchPredictions, predictNews } from "../services/api";
 
+function formatConfidence(value) {
+  const num = Number(value);
+  if (Number.isNaN(num)) {
+    return "N/A";
+  }
+  return `${(num * 100).toFixed(2)}%`;
+}
+
 function UserPredictPage() {
   const [text, setText] = useState("");
   const [predictionData, setPredictionData] = useState(null);
@@ -88,7 +96,7 @@ function UserPredictPage() {
             {history.slice(0, 8).map((item) => (
               <li key={item.id} className="rounded bg-white p-2">
                 <p>
-                  <strong>{item.prediction}</strong> ({item.confidence}) -{" "}
+                  <strong>{item.prediction}</strong> ({formatConfidence(item.confidence)}) -{" "}
                   {new Date(item.created_at).toLocaleString()}
                 </p>
                 <p className="mt-1 text-slate-500">{item.input_text}</p>

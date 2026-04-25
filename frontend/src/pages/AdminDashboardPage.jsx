@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import NewsTable from "../components/NewsTable";
-import { createNewsItem, deleteNewsItem, fetchNews } from "../services/api";
+import {
+  createNewsItem,
+  deleteNewsItem,
+  fetchNews,
+  retrainModelFromNews,
+} from "../services/api";
 
 function AdminDashboardPage() {
   const [rows, setRows] = useState([]);
@@ -11,6 +16,8 @@ function AdminDashboardPage() {
   const [content, setContent] = useState("");
   const [label, setLabel] = useState("fake");
   const [submitting, setSubmitting] = useState(false);
+  const [retraining, setRetraining] = useState(false);
+  const [retrainMessage, setRetrainMessage] = useState("");
 
   async function loadNews() {
     setLoading(true);
@@ -58,18 +65,45 @@ function AdminDashboardPage() {
     }
   }
 
+  async function handleRetrain() {
+    setRetraining(true);
+    setError("");
+    setRetrainMessage("");
+
+    try {
+      const result = await retrainModelFromNews();
+      setRetrainMessage(
+        `${result.message}. Samples: ${result.trained_samples}. Source: ${result.source}`
+      );
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setRetraining(false);
+    }
+  }
+
   return (
     <section className="rounded-xl bg-white p-6 shadow-sm">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-slate-900">Admin Dashboard</h2>
-        <button
-          type="button"
-          onClick={loadNews}
-          disabled={loading}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-        >
-          {loading ? "Refreshing..." : "Refresh Dataset"}
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={loadNews}
+            disabled={loading}
+            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          >
+            {loading ? "Refreshing..." : "Refresh Dataset"}
+          </button>
+          <button
+            type="button"
+            onClick={handleRetrain}
+            disabled={retraining}
+            className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          >
+            {retraining ? "Retraining..." : "Retrain from News"}
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handleCreate} className="mt-4 grid gap-3 rounded-md bg-slate-50 p-4">
@@ -106,6 +140,7 @@ function AdminDashboardPage() {
       </form>
 
       {error ? <p className="mt-3 text-sm text-red-600">{error}</p> : null}
+      {retrainMessage ? <p className="mt-2 text-sm text-emerald-700">{retrainMessage}</p> : null}
 
       <NewsTable rows={rows} onDelete={handleDelete} />
     </section>

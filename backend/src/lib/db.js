@@ -36,6 +36,13 @@ export async function listNews() {
   return rows;
 }
 
+export async function listNewsForTraining() {
+  const [rows] = await pool.query(
+    "SELECT title, content, label FROM news ORDER BY created_at DESC"
+  );
+  return rows;
+}
+
 export async function createNews({ title, content, label }) {
   const [result] = await pool.query(
     "INSERT INTO news (title, content, label) VALUES (?, ?, ?)",

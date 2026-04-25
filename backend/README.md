@@ -13,6 +13,7 @@ Node.js + Express backend service for Fake News Detector.
 - `DELETE /api/news/:id`
 - `GET /api/predictions`
 - `POST /api/predict` with body: `{ "text": "..." }`
+- `POST /api/ml/retrain` (train from current `news` dataset)
 - `POST /predict` (backward-compatible alias)
 
 ## Run Locally

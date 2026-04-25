@@ -120,3 +120,19 @@ export async function predictWithMl(text) {
     throw new MlServiceError("ML prediction failed");
   }
 }
+
+export async function retrainWithMl(samples) {
+  try {
+    const { data } = await withRetries(() => mlClient.post("/train", { samples }));
+    return {
+      message: data?.message || "Training completed",
+      source: data?.source || "unknown",
+      trained_samples: Number(data?.trained_samples || 0),
+    };
+  } catch (error) {
+    if (error instanceof MlServiceError) {
+      throw error;
+    }
+    throw new MlServiceError("ML retraining failed");
+  }
+}

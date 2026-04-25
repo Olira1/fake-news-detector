@@ -1,3 +1,11 @@
+function formatConfidence(value) {
+  const num = Number(value);
+  if (Number.isNaN(num)) {
+    return "N/A";
+  }
+  return `${(num * 100).toFixed(2)}%`;
+}
+
 function PredictionResult({ data }) {
   if (!data) {
     return null;
@@ -9,7 +17,7 @@ function PredictionResult({ data }) {
         Prediction: <strong>{data.prediction}</strong>
       </p>
       <p className="text-sm text-slate-800">
-        Confidence: <strong>{data.confidence}</strong>
+        Confidence: <strong>{formatConfidence(data.confidence)}</strong>
       </p>
     </div>
   );
