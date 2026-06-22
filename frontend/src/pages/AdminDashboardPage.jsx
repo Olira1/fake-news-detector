@@ -142,7 +142,7 @@ function AdminDashboardPage() {
         >
           {submitting
             ? "Saving..."
-            : ".gitignore to ignore datasets and vi"}
+            : ": update CSS styling for responsive, user-friendly interface"}
         </button>
       </form>
 
