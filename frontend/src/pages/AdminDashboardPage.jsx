@@ -142,7 +142,7 @@ function AdminDashboardPage() {
         >
           {submitting
             ? "Saving..."
-            : ": update CSS styling for responsive, user-friendly interfac"}
+            : ": update CSS styling for responsive, user-friendly interf"}
         </button>
       </form>
 
