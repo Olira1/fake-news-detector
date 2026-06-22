@@ -142,7 +142,7 @@ function AdminDashboardPage() {
         >
           {submitting
             ? "Saving..."
-            : ".gitignore to ignore datasets and virtua"}
+            : ".gitignore to ignore datasets and virtu"}
         </button>
       </form>
 
