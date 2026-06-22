@@ -85,7 +85,9 @@ function AdminDashboardPage() {
   return (
     <section className="rounded-xl bg-white p-6 shadow-sm">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-900">Admin Dashboard</h2>
+        <h2 className="text-lg font-semibold text-slate-900">
+          Admin Dashboard
+        </h2>
         <div className="flex gap-2">
           <button
             type="button"
@@ -106,7 +108,10 @@ function AdminDashboardPage() {
         </div>
       </div>
 
-      <form onSubmit={handleCreate} className="mt-4 grid gap-3 rounded-md bg-slate-50 p-4">
+      <form
+        onSubmit={handleCreate}
+        className="mt-4 grid gap-3 rounded-md bg-slate-50 p-4"
+      >
         <input
           type="text"
           value={title}
@@ -135,12 +140,16 @@ function AdminDashboardPage() {
           disabled={submitting}
           className="w-fit rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
         >
-          {submitting ? "Saving..." : "Add News"}
+          {submitting
+            ? "Saving..."
+            : ".gitignore to ignore datasets and virtual environments"}
         </button>
       </form>
 
       {error ? <p className="mt-3 text-sm text-red-600">{error}</p> : null}
-      {retrainMessage ? <p className="mt-2 text-sm text-emerald-700">{retrainMessage}</p> : null}
+      {retrainMessage ? (
+        <p className="mt-2 text-sm text-emerald-700">{retrainMessage}</p>
+      ) : null}
 
       <NewsTable rows={rows} onDelete={handleDelete} />
     </section>
